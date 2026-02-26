@@ -1,0 +1,967 @@
+{
+  "name": "investigador-leads-workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1BrOeAXJaMoyQuFGPDRWYrGuGhi81kXqOETqtFJqSEhs",
+          "mode": "list",
+          "cachedResultName": "Leads Investigador",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BrOeAXJaMoyQuFGPDRWYrGuGhi81kXqOETqtFJqSEhs/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Hoja 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BrOeAXJaMoyQuFGPDRWYrGuGhi81kXqOETqtFJqSEhs/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        -608,
+        -384
+      ],
+      "id": "a84dad61-ae3e-4492-a340-8d8e761fc80a",
+      "name": "01_trigger",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "8vDpEe60JvsbGTnA",
+          "name": "Google Sheets Trigger account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "7504caa1-29bf-4903-847a-068feccea9db",
+              "leftValue": "={{ $json.row_number }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        336,
+        -384
+      ],
+      "id": "7b169964-4bec-4961-a75a-64ad0fd6058e",
+      "name": "03_if"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"row_number\": {{ $json.row_number }},\n  \"status\": \"IN_PROGRESS\",\n  \"processed_at\": \"{{ new Date().toISOString() }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        880,
+        -416
+      ],
+      "id": "bd1ba47b-cd77-4b40-8caa-98f2c0bcc075",
+      "name": "05_edit_fields"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1BrOeAXJaMoyQuFGPDRWYrGuGhi81kXqOETqtFJqSEhs/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Hoja 1",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "row_number": "={{$json.row_number}}",
+            "status": "={{ $json.status }}",
+            "processed_at": "={{$json.processed_at}}"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "lead_id",
+              "displayName": "lead_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "name",
+              "displayName": "name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "company",
+              "displayName": "company",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "role",
+              "displayName": "role",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "linkedin_url",
+              "displayName": "linkedin_url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "notes",
+              "displayName": "notes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "processed_at",
+              "displayName": "processed_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1120,
+        -416
+      ],
+      "id": "757a09d4-4832-49d1-8016-b4d75070b2af",
+      "name": "06_updaterow",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "O8TZIifj9Pfa9n5l",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1BrOeAXJaMoyQuFGPDRWYrGuGhi81kXqOETqtFJqSEhs/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Hoja 1",
+          "mode": "name"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "status",
+              "lookupValue": "NEW"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -336,
+        -384
+      ],
+      "id": "dbdb3add-ace3-4ef2-90d7-ec4b440d2292",
+      "name": "02_get_new_rows",
+      "executeOnce": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "O8TZIifj9Pfa9n5l",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "749e9a76-18dc-4855-abda-84a8488303e6",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "NEW",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        576,
+        -400
+      ],
+      "id": "176e7f23-612f-4d54-803e-1cd8854172f5",
+      "name": "04_if"
+    },
+    {
+      "parameters": {
+        "sortFieldsUi": {
+          "sortField": [
+            {
+              "fieldName": "row_number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.sort",
+      "typeVersion": 1,
+      "position": [
+        -64,
+        -384
+      ],
+      "id": "86e2bc3e-e236-4d0f-9420-c452a71e06e1",
+      "name": "02a_sort"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        144,
+        -384
+      ],
+      "id": "904f1b62-6462-4754-ab2a-0f8325624723",
+      "name": "02b_Limit"
+    },
+    {
+      "parameters": {
+        "jsCode": "const normalize = (s) => (s ?? '').toString().trim();\n\nconst row_number = $json.row_number;\nconst lead_id = normalize($json.lead_id);\n\nconst name = normalize($json.name);\nconst company = normalize($json.company);\nconst role = normalize($json.role);\nconst linkedin_url = normalize($json.linkedin_url);\nconst notes = normalize($json.notes);\n\nlet discard = false;\nlet discard_reason = '';\n\nif (!name) {\n  discard = true;\n  discard_reason = 'Missing name';\n} else if (!role && !company && !linkedin_url) {\n  discard = true;\n  discard_reason = 'Insufficient context';\n}\n\nlet research_query = '';\n\nif (linkedin_url) {\n  research_query = linkedin_url;\n} else {\n  research_query = `${name} ${role} ${company}`.trim();\n}\n\nreturn [{\n  json: {\n    row_number,\n    lead_id,\n    name,\n    company,\n    role,\n    linkedin_url,\n    notes,\n    research_query,\n    has_linkedin: !!linkedin_url,\n    discard,\n    discard_reason\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -416,
+        -208
+      ],
+      "id": "fabbb4b0-e94f-4045-bd98-74452e7a9e85",
+      "name": "07_prepare_research_input"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "8d42f3cd-c045-4e94-a628-bc5c5c5756ee",
+              "leftValue": "{{$json.discard}}",
+              "rightValue": "true",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -224,
+        -208
+      ],
+      "id": "06446054-ba90-448b-b2cc-f01a5f4adcae",
+      "name": "08_decide_discard"
+    },
+    {
+      "parameters": {
+        "jsCode": "const normalize = (v) => (v ?? '').toString().trim();\n\nconst row_number = $json.row_number;\nconst lead_id = $json.lead_id;\n\nconst name = normalize($json.name);\nconst company = normalize($json.company);\nconst role = normalize($json.role);\n\nconst linkedin_url = normalize($json.linkedin_url);\nconst research_query = normalize($json.research_query);\n\n// Si viene boolean real, perfecto. Si viene string (\"true\"/\"false\"), lo normalizamos.\nconst has_linkedin_raw = $json.has_linkedin;\nconst has_linkedin =\n  has_linkedin_raw === true ||\n  has_linkedin_raw === \"true\" ||\n  (typeof has_linkedin_raw === \"string\" && has_linkedin_raw.trim().toLowerCase() === \"true\");\n\nlet research_type = \"\";\nlet research_input = \"\";\nlet skip_search = false;\n\n// Regla: si tengo linkedin_url válido -> NO uso SerpAPI\nif (has_linkedin && linkedin_url) {\n  research_type = \"linkedin_url\";\n  research_input = linkedin_url;\n  skip_search = true;\n} else {\n  research_type = \"search_query\";\n  research_input = research_query; // Ojo: si está vacío, después lo manejas con discard/needs_review\n  skip_search = false;\n}\n\nreturn [\n  {\n    json: {\n      row_number,\n      lead_id,\n      name,\n      company,\n      role,\n      linkedin_url,\n      research_query,\n      has_linkedin,\n      research_type,\n      research_input,\n      skip_search,\n    },\n  },\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        32,
+        -192
+      ],
+      "id": "b23d33ff-69e2-4e9c-b271-f9b46af994bc",
+      "name": "09_research_source_selector"
+    },
+    {
+      "parameters": {
+        "url": "https://serpapi.com/search.json",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "serpApi",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {},
+            {
+              "name": "engine",
+              "value": "google"
+            },
+            {
+              "name": "q",
+              "value": "={{$json.research_type === 'linkedin_url'\n  ? ($json.name + ' ' + $json.company + ' ' + $json.role + ' site:linkedin.com/in')\n  : $json.research_input\n}}"
+            },
+            {
+              "name": "num",
+              "value": "3"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        368,
+        32
+      ],
+      "id": "4a80837b-cdae-4277-a619-a2d67b2f806b",
+      "name": "10_HTTP Request",
+      "credentials": {
+        "serpApi": {
+          "id": "vASAdtIOn4Agvzx9",
+          "name": "SerpAPI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// 11_confidence_evaluator\n// Entrada esperada:\n// - Caso A (skip_search=true): viene directo desde 09b_if_skip_search con linkedin_url\n// - Caso B (skip_search=false): viene desde Merge, con campos del lead + respuesta SerpAPI\n\nconst items = $input.all();\nconst input = items[0].json;\n\nconst skip = input.skip_search === true;\nconst hasLinkedin = !!(input.linkedin_url && input.linkedin_url.toString().trim());\n\n// Helpers\nconst pickLead = (obj) => ({\n  row_number: obj.row_number,\n  lead_id: obj.lead_id,\n  name: obj.name,\n  company: obj.company,\n  role: obj.role,\n  linkedin_url: obj.linkedin_url ?? \"\",\n  research_query: obj.research_query,\n  has_linkedin: obj.has_linkedin,\n  research_type: obj.research_type,\n  research_input: obj.research_input,\n  skip_search: obj.skip_search,\n});\n\n// =======================\n// Caso A: ya tengo LinkedIn (skip_search true + linkedin_url)\n// =======================\nif (skip && hasLinkedin) {\n  const lead = pickLead(input);\n\n  return [{\n    json: {\n      ...lead,\n      best_match_url: lead.linkedin_url,\n      best_match_title: \"linkedin_url provided\",\n      confidence_score: 10,\n      confidence_level: \"HIGH\",\n      source: \"provided_linkedin\",\n      raw_serpapi: null,\n    }\n  }];\n}\n\n// =======================\n// Caso B: vengo con SerpAPI (desde Merge)\n// =======================\nconst lead = pickLead(input);\n\n// Tomamos resultados orgánicos si existen\nconst organic = Array.isArray(input.organic_results) ? input.organic_results : [];\n\nif (organic.length > 0) {\n  const first = organic[0];\n  const bestUrl = first.link || \"\";\n  const bestTitle = first.title || \"\";\n\n  // Heurística simple de confianza (puedes refinar después)\n  // - Si el título contiene el nombre (parcial) => MEDIUM\n  // - Si no, LOW\n  const nameToken = (lead.name || \"\").split(\" \")[0]?.toLowerCase() || \"\";\n  const titleLc = bestTitle.toLowerCase();\n\n  let confidence_score = 5;\n  let confidence_level = \"LOW\";\n\n  if (nameToken && titleLc.includes(nameToken)) {\n    confidence_score = 7;\n    confidence_level = \"MEDIUM\";\n  }\n\n  return [{\n    json: {\n      ...lead,\n      best_match_url: bestUrl,\n      best_match_title: bestTitle,\n      confidence_score,\n      confidence_level,\n      source: \"serpapi\",\n      // Guardamos crudo por trazabilidad (útil para debug)\n      raw_serpapi: {\n        search_metadata: input.search_metadata,\n        search_parameters: input.search_parameters,\n        search_information: input.search_information,\n        organic_results: input.organic_results,\n      }\n    }\n  }];\n}\n\n// =======================\n// Fallback: SerpAPI sin resultados\n// =======================\nreturn [{\n  json: {\n    ...lead,\n    best_match_url: \"\",\n    best_match_title: \"\",\n    confidence_score: 0,\n    confidence_level: \"LOW\",\n    source: \"serpapi\",\n    raw_serpapi: {\n      search_metadata: input.search_metadata,\n      search_parameters: input.search_parameters,\n      search_information: input.search_information,\n      organic_results: input.organic_results ?? [],\n      error: input.error ?? null,\n    },\n    note: \"No organic results found\",\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        704,
+        -208
+      ],
+      "id": "e8c9e68d-020a-42f3-96eb-637a837e6ad8",
+      "name": "11_confidence_evaluator"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "7064590d-4513-4ba2-8d57-c6851741901c",
+              "leftValue": "={{$json.skip_search}}",
+              "rightValue": "true",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        240,
+        -192
+      ],
+      "id": "2728837f-8165-46c9-88b8-2b5f9ebf913a",
+      "name": "09b_if_skip_search"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        496,
+        -160
+      ],
+      "id": "9c0445e0-14dc-4a9f-8eeb-869d7a434b99",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "jsCode": "const input = $json;\n\nreturn [{\n  json: {\n    lead: {\n      row_number: input.row_number,\n      lead_id: input.lead_id,\n      name: input.name,\n      company: input.company,\n      role: input.role,\n    },\n    match: {\n      url: input.best_match_url,\n      title: input.best_match_title,\n      confidence_level: input.confidence_level,\n      confidence_score: input.confidence_score,\n      source: input.source,\n    },\n    // Texto corto para el prompt (simple y estable)\n    prompt_context: `Lead: ${input.name} | Role: ${input.role} | Company: ${input.company}\\nBest match: ${input.best_match_title}\\nURL: ${input.best_match_url}\\nConfidence: ${input.confidence_level} (${input.confidence_score})`\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        912,
+        -208
+      ],
+      "id": "b707e161-7704-442d-b8e1-b01d9071a6dd",
+      "name": "12_ai_summarizer_input"
+    },
+    {
+      "parameters": {
+        "jsCode": "// 13_ai_engine (simulado, determinista)\n// Entrada: $json = output del nodo 12\n\nconst lead = $json.lead ?? {};\nconst match = $json.match ?? {};\n\nconst risks = [];\n\n// Helpers\nconst isEmpty = (v) => v === null || v === undefined || String(v).trim() === '';\nconst toNum = (v, fallback = 0) => {\n  const n = Number(v);\n  return Number.isFinite(n) ? n : fallback;\n};\n\n// Validaciones mínimas (sin inventar)\nif (isEmpty(lead.name)) risks.push('MISSING_NAME');\nif (isEmpty(match.url)) risks.push('MISSING_URL');\nif (isEmpty(lead.role)) risks.push('MISSING_ROLE');\nif (isEmpty(lead.company)) risks.push('MISSING_COMPANY');\n\n// Confianza (normalizada a 0..1)\nconst confidenceLevel = String(match.confidence_level ?? '').trim().toUpperCase();\n\nlet confidenceScoreRaw = toNum(match.confidence_score, 0);\n\n// Normalización de escala (sin inventar):\n// - Si viene 0..1 => se deja tal cual\n// - Si viene 0..10 => se convierte a 0..1 dividiendo por 10\n// - Si viene 0..100 => se convierte a 0..1 dividiendo por 100\nlet confidenceScore = confidenceScoreRaw;\nif (confidenceScoreRaw > 1 && confidenceScoreRaw <= 10) confidenceScore = confidenceScoreRaw / 10;\nelse if (confidenceScoreRaw > 10 && confidenceScoreRaw <= 100) confidenceScore = confidenceScoreRaw / 100;\n\nconst SCORE_THRESHOLD = 0.6;\n\nif (confidenceLevel === 'LOW' || confidenceLevel === 'NONE') risks.push('LOW_CONFIDENCE');\nif (confidenceScore < SCORE_THRESHOLD) risks.push('LOW_SCORE');\n\n// Evidencia derivada\nconst evidence = [];\nif (!isEmpty(match.url)) evidence.push({ type: 'url', value: match.url, weight: 1.0 });\nif (!isEmpty(match.title)) evidence.push({ type: 'title', value: match.title, weight: 0.7 });\n\n// Status sugerido\nconst shouldDiscard =\n  risks.includes('MISSING_NAME') ||\n  risks.includes('MISSING_URL') ||\n  risks.includes('LOW_CONFIDENCE') ||\n  risks.includes('LOW_SCORE');\n\nconst final_status_suggested = shouldDiscard ? 'DISCARDED' : 'DONE';\n\n// Summary 1-liner (plantilla fija)\nlet summary_1liner = '';\nif (final_status_suggested === 'DISCARDED') {\n  summary_1liner = `${lead.name || '(sin nombre)'} — descartado por baja confianza o falta de evidencia`;\n} else if (!isEmpty(match.title) && !isEmpty(match.url)) {\n  summary_1liner = `${lead.name} — posible match: ${match.title} (${match.url})`;\n} else if (!isEmpty(match.url)) {\n  summary_1liner = `${lead.name} — posible match encontrado: ${match.url}`;\n} else {\n  summary_1liner = `${lead.name} — sin evidencia suficiente`;\n}\n\n// Next step determinista\nconst recommended_next_step =\n  final_status_suggested === 'DONE'\n    ? 'Send to Slack + mark DONE'\n    : 'Mark DISCARDED (reason in risks_flags)';\n\nreturn {\n  lead,\n  match,\n  ai: {\n    summary_1liner,\n    evidence,\n    risks_flags: risks,\n    recommended_next_step,\n    final_status_suggested,\n  },\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -384,
+        80
+      ],
+      "id": "21e54f0a-22a4-4f28-b200-276167393f7b",
+      "name": "13_ai_engine"
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C0AGGM0JWBZ",
+          "mode": "id"
+        },
+        "text": "={{$json.ai.summary_1liner}}  Lead ID: {{$json.lead.lead_id}} Empresa: {{$json.lead.company}} Rol: {{$json.lead.role}}  URL: {{$json.match.url}} Confidence Level: {{$json.match.confidence_level}} Confidence Score: {{$json.match.confidence_score}}  Status sugerido: {{$json.ai.final_status_suggested}}  Riesgos: {{$json.ai.risks_flags.join(', ') \n\n 'None'}}",
+        "otherOptions": {
+          "includeLinkToWorkflow": false
+        }
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.4,
+      "position": [
+        -160,
+        80
+      ],
+      "id": "dfe44bb0-c62c-4e94-984b-f6d083eb33ce",
+      "name": "Send a message",
+      "webhookId": "1db3edf2-25e3-4d6a-9f6c-2573b72431a5",
+      "credentials": {
+        "slackApi": {
+          "id": "SCev9jjkAvE1jnC7",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e5383074-87c4-4b74-8c26-50d93b26fa3b",
+              "name": "lead.row_number",
+              "value": "={{$json.lead.row_number}}",
+              "type": "string"
+            },
+            {
+              "id": "150aaf59-d85f-48f2-9354-e0b1fe3c8945",
+              "name": "status",
+              "value": "={{$json.ai.final_status_suggested}}",
+              "type": "string"
+            },
+            {
+              "id": "e58af26e-e8ec-44d2-a55c-48fa112ef278",
+              "name": "finalized_at",
+              "value": "={{ new Date().toISOString() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -128,
+        304
+      ],
+      "id": "9f0c471f-b9e6-4052-b2d2-3d0a98c8f5dd",
+      "name": "15_finalize_fields"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1BrOeAXJaMoyQuFGPDRWYrGuGhi81kXqOETqtFJqSEhs/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Hoja 1",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "status": "={{$json.status}}",
+            "finalized_at": "={{$json.finalized_at}}",
+            "row_number": "={{$json.lead.row_number}}"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "lead_id",
+              "displayName": "lead_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "name",
+              "displayName": "name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "company",
+              "displayName": "company",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "role",
+              "displayName": "role",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "linkedin_url",
+              "displayName": "linkedin_url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "notes",
+              "displayName": "notes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "processed_at",
+              "displayName": "processed_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "finalized_at",
+              "displayName": "finalized_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        128,
+        304
+      ],
+      "id": "86f02a10-34c8-4029-9a7e-2aaeffdd15ca",
+      "name": "16_update_final_status",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "O8TZIifj9Pfa9n5l",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "01_trigger": {
+      "main": [
+        [
+          {
+            "node": "02_get_new_rows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "03_if": {
+      "main": [
+        [
+          {
+            "node": "04_if",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "05_edit_fields": {
+      "main": [
+        [
+          {
+            "node": "06_updaterow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "06_updaterow": {
+      "main": [
+        []
+      ]
+    },
+    "02_get_new_rows": {
+      "main": [
+        [
+          {
+            "node": "02a_sort",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "04_if": {
+      "main": [
+        [
+          {
+            "node": "05_edit_fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "02a_sort": {
+      "main": [
+        [
+          {
+            "node": "02b_Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "02b_Limit": {
+      "main": [
+        [
+          {
+            "node": "03_if",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "07_prepare_research_input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "07_prepare_research_input": {
+      "main": [
+        [
+          {
+            "node": "08_decide_discard",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "08_decide_discard": {
+      "main": [
+        [],
+        [
+          {
+            "node": "09_research_source_selector",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "09_research_source_selector": {
+      "main": [
+        [
+          {
+            "node": "09b_if_skip_search",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "10_HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "09b_if_skip_search": {
+      "main": [
+        [
+          {
+            "node": "11_confidence_evaluator",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "10_HTTP Request",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "11_confidence_evaluator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "11_confidence_evaluator": {
+      "main": [
+        [
+          {
+            "node": "12_ai_summarizer_input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "12_ai_summarizer_input": {
+      "main": [
+        [
+          {
+            "node": "13_ai_engine",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "13_ai_engine": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "15_finalize_fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        []
+      ]
+    },
+    "15_finalize_fields": {
+      "main": [
+        [
+          {
+            "node": "16_update_final_status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "5415fd78-8178-4302-bc66-196d09dd59ef",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "6a205d87a800dfde181c2f9b208d08b947dcef9d516668ee5c9433d0d6979f2a"
+  },
+  "id": "MaAADnVDlu21ESqX",
+  "tags": []
+}
