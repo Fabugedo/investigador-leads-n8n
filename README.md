@@ -8,7 +8,7 @@ Automatización desarrollada en **n8n** que implementa un flujo determinista par
 
 ## 📌 Objetivo
 
-Automatizar el siguiente proceso:
+Automatización:
 
 Google Sheets (leads en estado NEW)  
 → Validación  
