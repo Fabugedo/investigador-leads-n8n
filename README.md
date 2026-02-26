@@ -81,3 +81,7 @@ El comportamiento es reproducible, trazable y reemplazable por un modelo real si
 Proyecto funcional y estable.
 
 Preparado para reemplazar el motor simulado por un modelo de IA real si se requiere.
+
+## 📚 Referencias
+
+- n8n Official Documentation: https://docs.n8n.io/
